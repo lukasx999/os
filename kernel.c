@@ -3,8 +3,6 @@
 #include <stdbool.h>
 #include <stdnoreturn.h>
 
-#include <yarl.h>
-
 #include <limine.h>
 
 __attribute__((used, section(".limine_requests")))
@@ -22,35 +20,10 @@ static volatile LIMINE_REQUESTS_START_MARKER
 __attribute__((used, section(".limine_requests_end")))
 static volatile LIMINE_REQUESTS_END_MARKER
 
-
 static noreturn void hang(void) {
     while (1) {
         __asm__("hlt");
     }
-}
-
-static float floorf(float x) {
-    return x;
-}
-
-static float fabsf(float x) {
-    return x;
-}
-
-static float fmodf(float x, float y) {
-    return x+y;
-}
-
-static float atanf(float x) {
-    return x;
-}
-
-static double sin(double x) {
-    return x;
-}
-
-static double cos(double x) {
-    return x;
 }
 
 void kernel_main(void) {
@@ -72,8 +45,6 @@ void kernel_main(void) {
             buf[y * fb->width + x] = 0x000000ff;
         }
     }
-
-
 
     hang();
 
