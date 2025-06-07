@@ -1,14 +1,16 @@
 #!/bin/sh
 set -euo pipefail
 
-cflags="-ffreestanding -nostdlib -std=c11 -Og -Wall -Wextra -ggdb -march=x86-64 -mcmodel=kernel -I/usr/include"
+cflags="-ffreestanding -nostdlib -std=c11 -Og -Wall -Wextra -ggdb -march=x86-64 -mcmodel=kernel -I/usr/include -I./yarl"
 linkerflags="-T linker.ld"
 cc=~/opt/x86_64/bin/x86_64-elf-gcc
 emu=qemu-system-x86_64
 liminedir=/usr/share/limine
 
+cp ~/code/repos/yarl/yarl/libyarl.a yarl/
+cp ~/code/repos/yarl/yarl/yarl.h yarl/
 $cc $cflags -c kernel.c -o kernel.o
-$cc $cflags $linkerflags -static kernel.o -o os.bin
+$cc $cflags $linkerflags -static kernel.o ./yarl/libyarl.a -o os.bin
 
 mkdir -p iso/boot/limine
 cp os.bin iso/boot/
