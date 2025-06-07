@@ -7,8 +7,7 @@ cc=~/opt/x86_64/bin/x86_64-elf-gcc
 emu=qemu-system-x86_64
 liminedir=/usr/share/limine
 
-cp ~/code/repos/yarl/yarl/libyarl.a yarl/
-cp ~/code/repos/yarl/yarl/yarl.h yarl/
+cp ~/code/repos/yarl/yarl/libyarl.a ~/code/repos/yarl/yarl/yarl.h yarl/
 $cc $cflags -c kernel.c -o kernel.o
 $cc $cflags $linkerflags -static kernel.o ./yarl/libyarl.a -o os.bin
 

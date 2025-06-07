@@ -29,6 +29,30 @@ static noreturn void hang(void) {
     }
 }
 
+static float floorf(float x) {
+    return x;
+}
+
+static float fabsf(float x) {
+    return x;
+}
+
+static float fmodf(float x, float y) {
+    return x+y;
+}
+
+static float atanf(float x) {
+    return x;
+}
+
+static double sin(double x) {
+    return x;
+}
+
+static double cos(double x) {
+    return x;
+}
+
 void kernel_main(void) {
 
     if (
@@ -42,20 +66,14 @@ void kernel_main(void) {
     // framebuffer has RGB-format with 32-bit wide pixels
     struct limine_framebuffer *fb = framebuffer_request.response->framebuffers[0];
 
-    Yarl *yarl = yarl_init(
-        (unsigned char*) fb->address,
-        fb->width,
-        fb->height,
-        YARL_COLOR_FORMAT_BGRA,
-        hang
-    );
+    for (int y=0; y < (int) fb->height; ++y) {
+        for (int x=0; x < (int) fb->width; ++x) {
+            uint32_t *buf = fb->address;
+            buf[y * fb->width + x] = 0x000000ff;
+        }
+    }
 
-    yarl_fill(yarl, YARL_RED);
-    yarl_draw_rect(yarl, 50, 50, 100, 100, YARL_YELLOW);
-    // int o = 100;
-    // yarl_draw_triangle(yarl, fb->width/2, o, fb->width-o, fb->height-o, o, fb->height-o, YARL_BLUE);
-    yarl_draw_circle(yarl, fb->width/2, fb->height/2, 50, YARL_BLUE);
-    // yarl_draw_line(yarl, 0, 0, 50, 50, YARL_BLUE);
+
 
     hang();
 

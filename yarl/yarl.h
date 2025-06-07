@@ -51,21 +51,36 @@ typedef enum {
 // Yarl Types
 //
 
-typedef __attribute__((noreturn)) void (*YarlPanicHandler)(void);
-typedef struct Yarl Yarl;
+typedef struct {
+    float (*floorf)(float);
+    float (*fabsf)(float);
+    float (*fmodf)(float, float);
+    float (*atanf)(float);
+    double (*sin)(double);
+    double (*cos)(double);
+    __attribute__((noreturn)) void (*panic)(void);
+} YarlEnvironment;
 
+typedef struct {
+    int width, height;
+    // byte canvas - could represent any color format
+    // use the associated functions from `formats.h` for extracting color values
+    unsigned char *buffer;
+    YarlColorFormat format;
+    YarlEnvironment env;
+} Yarl;
 
 //
 // Yarl State Management
 //
 
-// Returns NULL on failure
-Yarl *yarl_init(
+void yarl_init(
+    Yarl *yarl,
     unsigned char *buffer,
     int width,
     int height,
     YarlColorFormat format,
-    YarlPanicHandler panic_handler
+    YarlEnvironment env
 );
 YarlColor yarl_get_pixel(const Yarl *yarl, int x, int y);
 unsigned char *yarl_get_buffer(const Yarl *yarl);
