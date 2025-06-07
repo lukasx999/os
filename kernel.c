@@ -42,7 +42,7 @@ void kernel_main(void) {
     for (int y=0; y < (int) fb->height; ++y) {
         for (int x=0; x < (int) fb->width; ++x) {
             uint32_t *buf = fb->address;
-            buf[y * fb->width + x] = 0x000000ff;
+            buf[y * fb->width + x] = 0x00000000;
         }
     }
 

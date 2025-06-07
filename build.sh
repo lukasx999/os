@@ -20,8 +20,9 @@ cc=~/opt/x86_64/bin/x86_64-elf-gcc
 emu=qemu-system-x86_64
 liminedir=/usr/share/limine
 
+nasm -felf64 something.asm -o something.o
 $cc $cflags -c kernel.c -o kernel.o
-$cc $cflags $linkerflags kernel.o -o os.bin
+$cc $cflags $linkerflags kernel.o something.o -o os.bin
 
 mkdir -p iso/boot/limine
 cp os.bin iso/boot/
@@ -33,4 +34,4 @@ xorriso -as mkisofs -r -b boot/limine/limine-bios-cd.bin \
         iso/ -o os.iso
 
 limine bios-install os.iso
-$emu -D .qemu_log.txt -cdrom os.iso # -S -s
+$emu -D .qemu_log.txt -serial stdio -cdrom os.iso # -S -s
