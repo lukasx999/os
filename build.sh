@@ -34,5 +34,5 @@ xorriso -as mkisofs -r -b boot/limine/limine-bios-cd.bin \
         iso/ -o os.iso
 
 limine bios-install os.iso
-echo "system_reset" | socat - UNIX-CONNECT:/tmp/qemu.monitor
-# $emu -monitor unix:/tmp/qemu.monitor,server,nowait -serial stdio -cdrom os.iso & # -S -s
+# echo "system_reset" | socat - UNIX-CONNECT:/tmp/qemu.monitor
+$emu -monitor unix:/tmp/qemu.monitor,server,nowait -serial stdio -cdrom os.iso # -S -s
