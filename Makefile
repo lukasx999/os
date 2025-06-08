@@ -1,5 +1,4 @@
 CC=~/opt/x86_64/bin/x86_64-elf-gcc
-
 CFLAGS=             \
 -ffreestanding      \
 -nostdlib           \
@@ -35,28 +34,32 @@ os.bin: $(OBJS)
 	@nasm -felf64 -gdwarf $< -o $@
 
 os.iso: os.bin
-	mkdir -p iso/boot/limine
-	cp os.bin iso/boot/
-	cp limine.conf /usr/share/limine/limine-bios.sys /usr/share/limine/limine-bios-cd.bin iso/boot/limine/
+	@mkdir -p iso/boot/limine
+	@cp os.bin iso/boot/
+	@cp limine.conf /usr/share/limine/limine-bios.sys /usr/share/limine/limine-bios-cd.bin iso/boot/limine/
 	
-	xorriso -as mkisofs -r -b boot/limine/limine-bios-cd.bin \
+	@xorriso -as mkisofs -r -b boot/limine/limine-bios-cd.bin \
 	        -no-emul-boot -boot-load-size 4 -boot-info-table -hfsplus \
 	        -apm-block-size 2048 \
-	        iso/ -o os.iso
+	        iso/ -o os.iso &>/dev/null
 
-	limine bios-install os.iso
+	@limine bios-install os.iso &>/dev/null
 
 rebuild: os.bin
-	echo "system_reset" | socat - UNIX-CONNECT:/tmp/qemu.monitor
+	@echo REBUILD $<
+	@echo "system_reset" | socat - UNIX-CONNECT:/tmp/qemu.monitor
 
 emu: os.iso
-	$(EMU) $(EMUFLAGS) -cdrom os.iso
+	@echo EMU $<
+	@$(EMU) $(EMUFLAGS) -cdrom os.iso
 
 debug: os.iso
-	$(EMU) $(EMUFLAGS) -cdrom os.iso -S -s
+	@echo EMU $<
+	@$(EMU) $(EMUFLAGS) -cdrom os.iso -S -s
 
 gdb: os.bin
-	gdb $< -ex "target remote :1234" -ex "b kernel_main" -ex "c"
+	@echo GDB $<
+	@gdb $< -ex "target remote :1234" -ex "b kernel_main" -ex "c"
 
 clean:
 	rm *.o os.bin *.iso
