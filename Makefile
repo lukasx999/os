@@ -18,8 +18,8 @@ LINKFLAGS=-T linker.ld
 EMU=qemu-system-x86_64
 EMUFLAGS=-monitor unix:/tmp/qemu.monitor,server,nowait -serial stdio
 
-OBJS=kernel.o serial.o string.o io.s.o
-DEPS=kernel.h serial.h string.h io.h
+OBJS=kernel.o serial.o string.o io.s.o fb.o
+DEPS=kernel.h serial.h string.h io.h fb.h
 
 os.bin: $(OBJS)
 	@echo LINK $^
