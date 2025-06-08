@@ -11,10 +11,9 @@
 
 noreturn void hang(void) {
     while (1) {
-        __asm__("hlt");
+        __asm__ volatile ("hlt");
     }
 }
-
 
 void kernel_main(void) {
 
