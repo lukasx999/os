@@ -24,9 +24,6 @@ void kernel_main(void) {
     if (fb_init(&fb))
         hang();
 
-    fb_fill(&fb, FB_BLUE);
-    fb_draw_circle(&fb, fb.width/2, fb.height/2, 100, FB_RED);
-
     hang();
 
 }
