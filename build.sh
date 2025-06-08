@@ -20,9 +20,11 @@ cc=~/opt/x86_64/bin/x86_64-elf-gcc
 emu=qemu-system-x86_64
 liminedir=/usr/share/limine
 
-nasm -felf64 -gdwarf something.asm -o something.o
-$cc $cflags -c kernel.c -o kernel.o
-$cc $cflags $linkerflags kernel.o something.o -o os.bin
+nasm -felf64 -gdwarf io.asm
+$cc $cflags -c kernel.c
+$cc $cflags -c serial.c
+$cc $cflags -c string.c
+$cc $cflags $linkerflags kernel.o io.o string.o serial.o -o os.bin
 
 mkdir -p iso/boot/limine
 cp os.bin iso/boot/
