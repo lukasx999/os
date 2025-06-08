@@ -7,7 +7,6 @@
 #include <limine.h>
 
 #include "serial.h"
-#include "string.h"
 
 
 __attribute__((used, section(".limine_requests")))
