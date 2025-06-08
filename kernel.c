@@ -26,6 +26,8 @@ static noreturn void hang(void) {
     }
 }
 
+void something(void);
+
 void kernel_main(void) {
 
     if (
@@ -45,6 +47,14 @@ void kernel_main(void) {
             buf[y * fb->width + x] = 0x00000000;
         }
     }
+
+    something();
+
+    // __asm__ volatile ("mov $3, %al");
+    // __asm__ volatile ("out %al, $0x3F8+3");
+    //     COM1 0x3F8
+    // ; mov al, 00000011b
+    // ; out COM1+3, al
 
     hang();
 
